@@ -3,16 +3,17 @@ import java.util.List;
 import java.util.UUID;
 
 public class Pedido{
-    private float numPedido;
+    private int numPedido;
     private float valorTotal;
     private List<Item> itens;
     private NotaFiscal notaFiscal;
     private TipoPagamento tipoPagamento;
 
-    public Pedido(){
-        this.numPedido = numPedido;
-        this.valorTotal = valorTotal;
-        this.itens = new ArrayList<>();
+    public Pedido(int numPedido, float valorTotal, TipoPagamento tipo){
+        setNumPedido(numPedido);
+        setValorTotal(valorTotal);
+        setTipoPagamento(tipo);
+        this.itens = new ArrayList<Item>();
     }
     
     public TipoPagamento getTipoPagamento() {
@@ -41,10 +42,10 @@ public class Pedido{
     public void setNotaFiscal(NotaFiscal notaFiscal) {
         this.notaFiscal = notaFiscal;
     }
-    public float getNumPedido() {
+    public int getNumPedido() {
         return numPedido;
     }
-    public void setNumPedido(float numPedido) {
+    public void setNumPedido(int numPedido) {
         this.numPedido = numPedido;
     }
     public float getValorTotal() {
@@ -67,20 +68,22 @@ public class Pedido{
         nota.setId(UUID.randomUUID());
         nota.setEmitente("237123309"); 
 
-        List<Produto> produtos = new ArrayList<>();
+        ArrayList<Produto> produtos = new ArrayList<Produto>();
         float total = 0;
-        for (Item item : itens) {
-            produtos.add(item.getProduto());
-            total += item.getTotal(); 
-        }
+        float iva = 0;
 
+        for (Item item : getItens()) {
+            produtos.add(item.getProduto());
+            iva = item.getProduto().getIva();
+            total += item.getTotal() * (1 + iva); 
+            System.out.println("Chamando...");
+        }
+        
+        nota.setTotal(total);
         nota.addProd(produtos);
-        float totalComIva = total * 1.23f;
-        nota.setTotal(totalComIva);
-        this.valorTotal = totalComIva;
+        setValorTotal(total);
 
         setNotaFiscal(nota);
         nota.gerar();
-    
    }
 }
