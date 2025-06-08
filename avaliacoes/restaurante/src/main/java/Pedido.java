@@ -76,7 +76,6 @@ public class Pedido{
             produtos.add(item.getProduto());
             iva = item.getProduto().getIva();
             total += item.getTotal() * (1 + iva); 
-            System.out.println("Chamando...");
         }
         
         nota.setTotal(total);
