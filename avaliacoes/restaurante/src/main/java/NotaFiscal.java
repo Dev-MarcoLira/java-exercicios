@@ -40,7 +40,7 @@ public class NotaFiscal implements INFCGenerator {
     }
 
     @Override
-    public void addProd(List<Produto> produtos) {
+    public void addProd(ArrayList<Produto> produtos) {
         this.produtos.addAll(produtos);
     }
 
@@ -65,6 +65,8 @@ public void gerar() {
     System.out.printf("Total com IVA (23%%): R$%.2f\n", total);
     System.out.println("===================================\n");
 }
+
+
 
     
 }
