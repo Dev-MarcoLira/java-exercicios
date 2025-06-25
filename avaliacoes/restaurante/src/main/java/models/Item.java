@@ -1,44 +1,35 @@
 package models;
 
-import DAO.ItemDAO;
-
 public class Item {
     
+    private int id;
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private Produto produto;
     private int quantidade;
-    private float valVenda;
-    private ItemDAO itemDAO;
-
+    private double valVenda;
+    private double total;
     
-    
-    public Item(Produto produto, int quantidade, float val, ItemDAO itemDAO) {
+    public Item( 
+        Produto produto, 
+        int quantidade, 
+        double val,
+        double total
+    ) {
+        setId(id);
         setProduto(produto);
         setQuantidade(quantidade);
         setValVenda(val);
-        setItemDAO(itemDAO);
+        setTotal(total);
     }
-    
-    public void create(){
-        getItemDAO().create(this);
-    }
-    
-    public void read(){
-        getItemDAO().read();
-    }
-    
-    public void delete(int id){
-        getItemDAO().delete(id);
-    }
-    
-    
-    public ItemDAO getItemDAO() {
-        return this.itemDAO;
-    }
-
-    public void setItemDAO(ItemDAO itemDAO) {
-        this.itemDAO = itemDAO;
-    }
-    
+       
     public Produto getProduto() {
         return this.produto;
     }
@@ -55,15 +46,25 @@ public class Item {
         this.quantidade = quantidade;
     }
 
-    public float getValVenda() {
+    public double getValVenda() {
         return this.valVenda;
     }
 
-    public void setValVenda(float valVenda) {
+    public void setValVenda(double valVenda) {
         this.valVenda = valVenda;
     }
 
-    public float getTotal() {
-        return this.valVenda * this.quantidade;
+    public double getTotal() {
+        return this.total;
     }
+
+    public void setTotal(double total){
+        this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        return "Item [id=" + id + ", produto=" + produto + ", quantidade=" + quantidade + ", valVenda=" + valVenda + ", total=" + total + "]";
+    }
+
 }

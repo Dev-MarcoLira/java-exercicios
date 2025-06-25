@@ -3,10 +3,11 @@ package models;
 public class Produto {
     
     private String nome;
-    private float valProduto;
+    private double valProduto;
     private float iva;
 
-    public Produto(String nome, float val, float iva) {
+    public Produto(String nome, double val, float iva) {
+     
         setNome(nome);
         setValProduto(val);
         setIva(iva);
@@ -20,11 +21,11 @@ public class Produto {
         this.nome = nome;
     }
 
-    public float getValProduto() {
+    public double getValProduto() {
         return this.valProduto;
     }
 
-    public void setValProduto(float valProduto) {
+    public void setValProduto(double valProduto) {
         this.valProduto = valProduto;
     }
 
@@ -36,12 +37,12 @@ public class Produto {
         this.iva = iva;
     }
 
-    public float getPrecoComIva() {
+    public double getPrecoComIva() {
         return valProduto * (1 + iva);
     }
 
     @Override
     public String toString() {
-        return nome + " - R$" + String.format("%.2f", valProduto);
+        return "Produto nome=" + nome + ", valProduto=" + valProduto + ", iva=" + iva + "]";
     }
 }

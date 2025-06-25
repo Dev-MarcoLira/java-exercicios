@@ -1,55 +1,81 @@
 package controllers;
 
-import java.util.Scanner;
+import java.util.ArrayList;
 
 import DAO.ItemDAO;
 import models.Item;
+import views.ItemScan;
 
 public class ItemController {
     
-    public static void main(String args[]) {
+    private ItemScan view;
+    private ItemDAO itemDAO;
 
-        Scanner scan = new Scanner(System.in);
-        ItemDAO itemDAO = new ItemDAO();
+    public ItemController(
+        ItemScan view,
+        ItemDAO itemDAO
+    ){
+        setView(view);
+        setItemDAO(itemDAO);
+    }
 
-        System.out.println("Escolha a opção: ");
-        System.out.println("1: Criar");
-        System.out.println("2: Ler");
-        System.out.println("3: Deletar ");
-        
-        int opcao = Integer.parseInt(scan.nextLine());
-        
-        switch(opcao){
+    public void start() {
+
+        ItemScan view = getView();
+        ItemDAO itemDAO = getItemDAO();
+
+        int opcao = 1;
+
+        while(opcao != 0){
+                        
+            opcao = view.showMenu();
             
-            case 1:
-            
-                System.out.print("Quantidade: ");
-                int quantidade = scan.nextInt();
+            switch(opcao){
                 
-                System.out.print("Valor: ");
-                float valor = scan.nextFloat();
+                case 1:
                 
-                
-                Item item = new Item(null, quantidade, valor, itemDAO);
-                
-                item.create();
-                
-                break;
-            
-            case 2:
-            
-                itemDAO.read();
-                break;
+                    Item item = view.getItemDetails();
+
+                    itemDAO.add(item);           
                     
-            case 3:
+                    break;
                 
-                System.out.print("ID: ");
-                int id = scan.nextInt();
+                case 2:
                 
-                itemDAO.delete(id);
-                break;
+                    ArrayList<Item> items = itemDAO.getAll();
+                    view.showItems(items);
+                    
+                    break;
+                        
+                case 3:
+                    
+                    int id = view.getId();
+                    
+                    itemDAO.delete(id);
+                    break;
+            }
         }
+    }      
+    
+    public static void main(String[] args) {
+     
+        ItemController itemController = new ItemController(new ItemScan(), new ItemDAO());
+        itemController.start();
+    }
 
-            scan.close();
-    }        
+    public ItemScan getView() {
+        return this.view;
+    }
+
+    public void setView(ItemScan view) {
+        this.view = view;
+    }
+
+    public ItemDAO getItemDAO() {
+        return this.itemDAO;
+    }
+
+    public void setItemDAO(ItemDAO itemDAO) {
+        this.itemDAO = itemDAO;
+    }
 }

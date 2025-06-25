@@ -1,47 +1,76 @@
 package views;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
-import DAO.ItemDAO;
 import models.Item;
 import models.Produto;
 
 public class ItemScan {
  
-    private Produto produto;
+    public Scanner scan = new Scanner(System.in);
+    
+    public int showMenu(){
 
-    public Produto getProduto() {
-        return this.produto;
+
+        System.out.println("Escolha a opção: ");
+        System.out.println("0: Sair ");
+        System.out.println("1: Criar");
+        System.out.println("2: Ler");
+        System.out.println("3: Deletar ");
+        
+        int opcao = Integer.parseInt(scan.nextLine());
+
+        return opcao;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+    public Item getItemDetails(){
+
+        System.out.println("Nome: ");
+        String nome = scan.nextLine();
+
+        System.out.println("Quantidade: ");
+        int quantidade = Integer.parseInt(scan.nextLine());
+
+        System.out.println("Valor: ");
+        double valor = Double.parseDouble(scan.nextLine());
+
+        System.out.println("IVA: ");
+        float iva = Float.parseFloat(scan.nextLine());
+
+        Produto produto = new Produto(
+            nome,
+            valor,
+            iva
+        );
+
+        double valorComIva = valor * iva;
+        return new Item(produto, quantidade, valor, valorComIva * quantidade);
     }
 
+    public void showItems(ArrayList<Item> items){
 
-    public ItemScan(
-        Produto produto
-    ){
-        setProduto(produto);
-        
+        if (items.isEmpty()) {
+            System.out.println("Nenhum item encontrado.");
+            return;
+        }
+
+        for (Item item : items) {
+            System.out.println("ID: " + item.getId());
+            System.out.println("Nome: " + item.getProduto().getNome());
+            System.out.println("Quantidade: " + item.getQuantidade());
+            System.out.println("Valor: " + item.getValVenda());
+            System.out.println("IVA: " + item.getProduto().getIva());
+            System.out.println("Total: " + item.getTotal());
+            System.out.println();
+        }
     }
 
-    public Item read(){
-        
-        Scanner scan = new Scanner(System.in);
-        ItemDAO itemDAO = new ItemDAO();
+    public int getId(){
+        System.out.println("ID: ");
+        int id = Integer.parseInt(scan.nextLine());
 
-        System.out.print("Quantidade: ");
-        int quantidade = scan.nextInt();
-        
-        System.out.print("Valor: ");
-        float valor = scan.nextFloat();
-
-
-        Item item = new Item(getProduto(), quantidade, valor, itemDAO);
-        
-        return item;
+        return id;
     }
-
 
 }

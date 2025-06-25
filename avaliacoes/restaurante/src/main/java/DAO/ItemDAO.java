@@ -1,39 +1,38 @@
 package DAO;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import models.Item;
+import models.Produto;
 
 
 public class ItemDAO {
     
     
-    public String path = "../db/item.db";
-    public ArrayList<Item> items = new ArrayList<Item>();
-    public int num = 1;
+    public String path = "c:\\Users\\Marco\\Documents\\programming\\java\\cefet\\java-exercicios\\avaliacoes\\restaurante\\src\\main\\java\\db\\item.txt";
     
-    public void create(Item item){
+    public void add(Item item){
         
-        
+        int id = this.getNextId();
+
         try{
-            
-            FileWriter db = new FileWriter(path);
+            ArrayList<Item> items = getAll();
 
-            for(Item itemX : items){
-
-                db.write("Pedido #" + num + ":\n");
-                db.write("Produto: " + itemX.getProduto().getNome() + "\n");
-                db.write("Quantidade: " + itemX.getQuantidade() + "\n");
-                db.write("Valor: R$" + itemX.getValVenda() + "\n");
-                db.write("Total: R$" + itemX.getTotal() + "\n");
-                db.write("\n");
+            try (BufferedWriter db = new BufferedWriter(new FileWriter(path, false))) {
+                item.setId(id);
+                items.add(item);
+                
+                for(Item itemX : items){
+                    
+                    db.write(itemX.getId() + "," + itemX.getProduto().getNome() + "," + itemX.getQuantidade() + "," + itemX.getValVenda() + "," + itemX.getProduto().getIva() + ","+ itemX.getTotal());
+                    db.newLine();
+                }
             }
-
-            db.close();
-            num++;
 
         }catch(Exception e){
 
@@ -41,55 +40,89 @@ public class ItemDAO {
         }
     }
     
-    public void read(){
-        
-        
-        try {
-            File source = new File(path);
-            
-            Scanner reader = new Scanner(source);
+    private int getNextId() {
 
-            while(reader.hasNextLine()){
+        int maxId = 0;
+        ArrayList<Item> items = getAll();
 
-                String data = reader.nextLine();
-                System.out.println(data);
+        for (Item i : items ) {
+            if (i.getId() > maxId) {
+                maxId = i.getId();
             }
+        }
+
+        return maxId + 1;
+    }
+
+    public ArrayList<Item> getAll(){
+        
+        ArrayList<Item> items = new ArrayList<Item>();
+
+        try {
+            
+            try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+                String line;
+                
+                while((line = reader.readLine()) != null){
+                    
+                    String[] parts = line.split(",");
+                    
+                    int id = Integer.parseInt(parts[0]);
+                    String name = parts[1];
+                    int quantity = Integer.parseInt(parts[2]);
+                    double price = Double.parseDouble(parts[3]);
+                    float iva = Float.parseFloat(parts[4]);
+                    double total = Double.parseDouble(parts[5]);
+                    
+                    Produto product = new Produto(name, price, iva);
+                    
+                    Item item = new Item(product, quantity, price, total);
+                    
+                    item.setId(id);
+                    
+                    items.add(item);
+                }
+            }
+
+        }catch(FileNotFoundException e){
+
+            // File does not exist (it's okay)
 
         } catch (Exception e){
             System.err.println(e.getMessage());
         }
-
+        
+        return items;
     }
     
     public void delete(int id){
     
-        try {
-            File source = new File(path);
+        
+        ArrayList<Item> items = getAll();
+        
+        boolean removed = items.removeIf(i -> i.getId() == id);
+        
+        if(removed){
             
-            Scanner reader = new Scanner(source);
+            try {
 
-            while(reader.hasNextLine()){
-
-                String line = reader.nextLine();
-                
-                if(line.contains("#")){
-
-                    String idNum = line.split("#")[1];
-
-                    if(idNum.contains(String.valueOf(id))){
-                        items.remove(id);
-                    }else{
-
-                        System.out.println("Item não encontrado!");
+                try (BufferedWriter db = new BufferedWriter(new FileWriter(path, false))) {
+                    for(Item itemX : items){
+                        
+                        db.write(itemX.getId() + "," + itemX.getProduto().getNome() + "," + itemX.getQuantidade() + "," + itemX.getValVenda() + "," + itemX.getProduto().getIva() + ","+ itemX.getTotal());
+                        db.newLine();
                     }
-
                 }
 
+            }catch (Exception e){
+                System.err.println(e.getMessage());
             }
 
-        } catch (Exception e){
-            System.err.println(e.getMessage());
-        }
+        } 
+    }
+
+    public String getPath() {
+        return path;
     }
     
 
