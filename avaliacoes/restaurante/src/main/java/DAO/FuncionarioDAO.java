@@ -70,7 +70,7 @@ public class FuncionarioDAO {
         return funcionarios;
     }
 
-    public void delete(int id){
+    public boolean delete(int id){
 
         ArrayList<Funcionario> funcionarios = (ArrayList<Funcionario>) getAll();
 
@@ -86,7 +86,12 @@ public class FuncionarioDAO {
                 }
             }catch(Exception e){
                 System.err.println(e.getMessage());
+
+            }finally{
+                return true;
             }
+        }else{
+            return false;
         }
     }
 

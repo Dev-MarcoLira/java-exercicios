@@ -14,7 +14,7 @@ public class FuncionarioScan {
     public void start(){
 
         int opcao;
-        
+
         do{
 
             opcao = showMenu();
@@ -35,7 +35,11 @@ public class FuncionarioScan {
                 case 3:
 
                     int id = getId();
-                    controller.deleteFuncionario(id);
+                    boolean removed = controller.deleteFuncionario(id);
+
+                    if(removed){
+                        System.out.println("Funcionário removido com sucesso");
+                    }
                 break;
 
                 default:

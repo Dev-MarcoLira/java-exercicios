@@ -22,13 +22,13 @@ public class FuncionarioController {
         return funcionarioDAO.getAll();
     }
 
-    public void deleteFuncionario(int id){
+    public boolean deleteFuncionario(int id){
 
         if(id < 0){
             throw new IllegalArgumentException("ID não pode ser negativo");
         }
         
-        funcionarioDAO.delete(id);
+        return funcionarioDAO.delete(id);
     }
 
 }
