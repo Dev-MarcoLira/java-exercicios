@@ -5,15 +5,17 @@ public class Funcionario extends Pessoa {
     private String cargo;
     private String ctps;
     private int id;
-
-    
     
     public Funcionario(String nome, String cpf){
-        super(nome,cpf);
-        this.cargo = cargo;
-        this.ctps = ctps;
-        
+        super(nome,cpf);   
     }
+
+    public Funcionario(String nome, String cpf, String cargo, String ctps){
+        super(nome,cpf);
+        setCargo(cargo);
+        setCtps(ctps);
+    }
+
     public int getId() {
         return this.id;
     }
