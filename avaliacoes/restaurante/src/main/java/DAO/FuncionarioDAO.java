@@ -70,6 +70,26 @@ public class FuncionarioDAO {
         return funcionarios;
     }
 
+    public void delete(int id){
+
+        ArrayList<Funcionario> funcionarios = (ArrayList<Funcionario>) getAll();
+
+        boolean removed = funcionarios.removeIf(funcionario -> funcionario.getId() == id);
+
+        if(removed){
+
+            try(BufferedWriter db = new BufferedWriter(new FileWriter(path, false))){
+
+                for(Funcionario funcionario : funcionarios){
+                    db.write(funcionario.getId() + "," + funcionario.getNome() + "," + funcionario.getCpf() + "," + funcionario.getCargo() + "," + funcionario.getCtps());
+                    db.newLine();
+                }
+            }catch(Exception e){
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
     private int getNextId() {
 
         int maxId = 0;
