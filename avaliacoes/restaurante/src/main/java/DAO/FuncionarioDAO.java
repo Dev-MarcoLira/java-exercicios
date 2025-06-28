@@ -1,11 +1,14 @@
 package DAO;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import models.Funcionario;
-import models.Item;
 
 public class FuncionarioDAO {
  
@@ -15,12 +18,12 @@ public class FuncionarioDAO {
         
         int id = this.getNextId();
         
-        ArrayList<Funcionario> funcionarios = getAll();
+        ArrayList<Funcionario> funcionarios = (ArrayList<Funcionario>) getAll();
 
         
         try (BufferedWriter db = new BufferedWriter(new FileWriter(path, false))) {
             
-            funcionario.setId(getNextId());
+            funcionario.setId(id);
             funcionarios.add(funcionario);
 
             for(Funcionario func : funcionarios){
@@ -34,12 +37,45 @@ public class FuncionarioDAO {
 
     }
 
+    public List<Funcionario> getAll(){
+        
+        ArrayList<Funcionario> funcionarios = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            
+            String line;
+            
+            while((line = reader.readLine()) != null){
+                
+                String[] parts = line.split(",");
+
+                int id = Integer.parseInt(parts[0]);
+                String nome = parts[1];
+                String cpf = parts[2];
+                String cargo = parts[3];
+                String ctps = parts[4];
+
+                Funcionario funcionario = new Funcionario(nome, cpf, cargo, ctps);
+
+                funcionario.setId(id);
+                funcionarios.add(funcionario);
+
+            }
+        } catch(FileNotFoundException e){
+            // File does not exist (it's okay)
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        return funcionarios;
+    }
+
     private int getNextId() {
 
         int maxId = 0;
-        ArrayList<Item> items = getAll();
+        ArrayList<Funcionario> funcionarios = (ArrayList<Funcionario>) getAll();
 
-        for (Item i : items ) {
+        for (Funcionario i : funcionarios ) {
             if (i.getId() > maxId) {
                 maxId = i.getId();
             }
