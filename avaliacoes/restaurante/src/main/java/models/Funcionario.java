@@ -24,4 +24,9 @@ public class Funcionario extends Pessoa {
         this.ctps = ctps;
     }
 
+    @Override
+    public String toString() {
+        return "Funcionario [cargo=" + cargo + ", ctps=" + ctps + "]";
+    }
+
 }
