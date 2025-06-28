@@ -1,5 +1,7 @@
 package DAO;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 import models.Funcionario;
@@ -12,6 +14,24 @@ public class FuncionarioDAO {
     public void add (Funcionario funcionario){
         
         int id = this.getNextId();
+        
+        ArrayList<Funcionario> funcionarios = getAll();
+
+        
+        try (BufferedWriter db = new BufferedWriter(new FileWriter(path, false))) {
+            
+            funcionario.setId(getNextId());
+            funcionarios.add(funcionario);
+
+            for(Funcionario func : funcionarios){
+                db.write(func.getId() + "," + func.getNome() + "," + func.getCpf() + "," + func.getCargo() + "," + func.getCtps());
+                db.newLine();
+            }
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
     }
 
     private int getNextId() {
