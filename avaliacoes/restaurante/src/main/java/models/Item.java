@@ -4,14 +4,7 @@ public class Item {
     
     private int id;
 
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    
     private Produto produto;
     private int quantidade;
     private double valVenda;
@@ -22,21 +15,28 @@ public class Item {
         int quantidade, 
         double val,
         double total
-    ) {
-        setId(id);
-        setProduto(produto);
-        setQuantidade(quantidade);
-        setValVenda(val);
-        setTotal(total);
-    }
-       
-    public Produto getProduto() {
-        return this.produto;
-    }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
-    }
+        ) {
+            setId(id);
+            setProduto(produto);
+            setQuantidade(quantidade);
+            setValVenda(val);
+            setTotal(total);
+        }
+        
+        public int getId() {
+            return this.id;
+        }
+    
+        public void setId(int id) {
+            this.id = id;
+        }
+        public Produto getProduto() {
+            return this.produto;
+        }
+        
+        public void setProduto(Produto produto) {
+            this.produto = produto;
+        }
 
     public int getQuantidade() {
         return this.quantidade;
