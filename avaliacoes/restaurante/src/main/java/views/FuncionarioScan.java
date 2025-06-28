@@ -13,9 +13,11 @@ public class FuncionarioScan {
 
     public void start(){
 
-        int opcao = showMenu();
+        int opcao;
+        
+        do{
 
-        while(opcao != 0){
+            opcao = showMenu();
 
             switch(opcao){
 
@@ -39,7 +41,7 @@ public class FuncionarioScan {
                 default:
                     System.out.println("Opção inválida");
             }
-        }
+        }while(opcao != 0);
 
         System.out.println("Saindo do fluxo de funcionários...");
     }
