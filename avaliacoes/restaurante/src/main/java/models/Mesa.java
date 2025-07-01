@@ -2,6 +2,9 @@ package models;
 
 public class Mesa {
 
+    private int id;
+
+
     private String num;
     private String local;
 
@@ -25,6 +28,13 @@ public class Mesa {
     public void setLocal(String local) {
         this.local = local;
     }
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
     // ✅ Exibição amigável
     @Override
