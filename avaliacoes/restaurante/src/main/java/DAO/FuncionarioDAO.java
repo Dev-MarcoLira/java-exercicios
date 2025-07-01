@@ -12,8 +12,9 @@ import models.Funcionario;
 
 public class FuncionarioDAO {
  
-    public String path = "c:\\Users\\Marco\\Documents\\programming\\java\\cefet\\java-exercicios\\avaliacoes\\restaurante\\src\\main\\java\\db\\funcionario.txt";
+    public String path = System.getProperty("user.dir") + "\\avaliacoes\\restaurante\\src\\main\\java\\db\\funcionario.txt";
     
+
     public void add (Funcionario funcionario){
         
         int id = this.getNextId();

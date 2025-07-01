@@ -13,8 +13,7 @@ import models.Produto;
 
 public class ItemDAO {
     
-    
-    public String path = "c:\\Users\\Marco\\Documents\\programming\\java\\cefet\\java-exercicios\\avaliacoes\\restaurante\\src\\main\\java\\db\\item.txt";
+    public String path = System.getProperty("user.dir") + "\\avaliacoes\\restaurante\\src\\main\\java\\db\\item.txt";
     
     public void add(Item item){
         
