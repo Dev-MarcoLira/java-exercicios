@@ -2,6 +2,7 @@ package models;
 
 public class Produto {
     
+    private int id;
     private String nome;
     private double valProduto;
     private float iva;
@@ -13,6 +14,13 @@ public class Produto {
         setIva(iva);
     }
 
+    public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
     public String getNome() {
         return this.nome;
     }
